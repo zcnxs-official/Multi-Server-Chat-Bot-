@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Admin Panel</title>
+    <link rel="stylesheet" href="../styles/admin.css">
+</head>
+
+<body>
+
+    <body>
+        <div class="outer-box">
+            <div class="admin-box big-box" id="second-box">
+                <h1>Admin Dashboard</h1>
+                <p>Welcome, vertxxy!</p>
+            </div>
+
+            <pre class="terminal-box">
+  </pre>
+        </div>
+    </body>
+
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyDZLrChI_EtTonWeZdM9NLf2njrg0YD61A",
+            authDomain: "multi-server-bot.firebaseapp.com",
+            projectId: "multi-server-bot",
+            storageBucket: "multi-server-bot.appspot.com",
+            messagingSenderId: "513590578450",
+            appId: "1:513590578450:web:7bdb9e6e64966e67c037cb"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+
+        const allowedAdmins = ['sammy', 'belmontreal', 'vertxxy', 'admin'];
+        const contentDiv = document.getElementById('content');
+        const usernameSpan = document.getElementById('admin-username');
+        const logoutBtn = document.getElementById('logout-btn');
+
+        auth.onAuthStateChanged(user => {
+            if (user) {
+                const email = user.email || '';
+                const username = email.split('@')[0].toLowerCase();
+                if (allowedAdmins.includes(username)) {
+                    usernameSpan.textContent = username;
+                    contentDiv.style.display = 'block';
+                } else {
+                    alert('Access denied.');
+                    window.location.href = 'login.html';
+                }
+            } else {
+                window.location.href = 'login.html';
+            }
+        });
+
+        logoutBtn.addEventListener('click', () => {
+            auth.signOut().then(() => {
+                window.location.href = 'login.html';
+            });
+        });
+    </script>
+</body>
+
+</html>

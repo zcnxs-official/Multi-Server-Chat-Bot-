@@ -1,0 +1,95 @@
+    body {
+      background: linear-gradient(135deg, #000428, #004e92);
+      color: white;
+      font-family: Arial, sans-serif;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    #logout-btn {
+      margin-top: 2rem;
+      padding: 10px 20px;
+      background-color: #004e92;
+      border: none;
+      border-radius: 5px;
+      color: white;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    #logout-btn:hover {
+      background-color: #007bff;
+    }
+
+    #content {
+      max-width: 600px;
+      margin: 0 auto;
+      background: #111;
+      padding: 1.5rem;
+      border-radius: 8px;
+      box-shadow: 0 0 15px #004e92;
+    }
+
+body {
+  background: linear-gradient(to bottom, #001f4d, #003366);
+  font-family: Arial, sans-serif;
+  color: white;
+  display: flex;
+  justify-content: center;
+  padding: 40px 0;
+  margin: 0;
+}
+
+/* Outer container for both boxes */
+.outer-box {
+display: flex;
+flex-direction: column;
+align-items: center; /* to center children */
+gap: 40px;
+max-width: 950px;
+width: 100%;
+padding: 30px 40px;
+background-color: #121827;
+border-radius: 10px;
+box-shadow: 0 0 20px rgba(0,0,0,0.8);
+
+}
+.admin-box.big-box, .terminal-box {
+  width: 100%;
+  max-width: 950px; /* same as outer */
+  box-sizing: border-box;
+}
+
+.admin-box.big-box {
+  background-color: #111;
+  padding: 50px 60px;
+  border-radius: 8px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.7);
+  text-align: center;
+  width: 100%;
+  /* remove any margin-top if you had */
+  
+}
+
+.terminal-box {
+  background-color: #0c1226;
+  color: #cbd5e1;
+  font-family: 'Source Code Pro', monospace, monospace;
+  font-size: 13px;
+  padding: 20px;
+  border-radius: 6px;
+  box-shadow: 0 0 15px rgba(15, 23, 42, 0.7);
+  width: 100%;
+  height: 400px;
+  overflow-y: auto;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  line-height: 1.4;
+  user-select: text;
+  /* no negative margins or positioning */
+}
+
+
+.terminal-box pre {
+  margin: 0;
+}

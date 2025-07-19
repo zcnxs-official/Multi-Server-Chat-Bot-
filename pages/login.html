@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Login - Multi-Server Chat Bot</title>
+    <link rel="stylesheet" href="../styles/login.css">
+</head>
+
+<body>
+
+    <div class="container" id="user-signed-out">
+        <h2>Login to Dashboard</h2>
+        <input type="text" id="username" placeholder="Username" autocomplete="off" />
+        <input type="password" id="password" placeholder="Password" autocomplete="off" />
+        <button id="login-btn">Login</button>
+        <button id="signup-btn">Sign Up</button>
+        <a href="../index.html" style="display:inline-block; margin-top: 0.5rem; color: #00d1ff; cursor: pointer; text-decoration: underline;">Back to Home</a>
+        <p id="error-msg"></p>
+    </div>
+
+
+    <div class="container" id="user-signed-in" style="display:none;">
+        <p id="welcome-msg"></p>
+        <button id="logout-btn">Logout</button>
+        <a href="admin.html" id="admin-link">Go to Admin Page</a>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyDZLrChI_EtTonWeZdM9NLf2njrg0YD61A",
+            authDomain: "multi-server-bot.firebaseapp.com",
+            projectId: "multi-server-bot",
+            storageBucket: "multi-server-bot.appspot.com",
+            messagingSenderId: "513590578450",
+            appId: "1:513590578450:web:7bdb9e6e64966e67c037cb"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+
+        const domain = 'multi-server-chat-bot.com';
+
+        function getEmailFromUsername(username) {
+            return `${username}@${domain}`;
+        }
+
+        const loginBtn = document.getElementById('login-btn');
+        const signupBtn = document.getElementById('signup-btn');
+        const logoutBtn = document.getElementById('logout-btn');
+        const errorMsg = document.getElementById('error-msg');
+        const usernameInput = document.getElementById('username');
+        const passwordInput = document.getElementById('password');
+        const welcomeMsg = document.getElementById('welcome-msg');
+        const signedOutDiv = document.getElementById('user-signed-out');
+        const signedInDiv = document.getElementById('user-signed-in');
+        const adminLink = document.getElementById('admin-link');
+
+        const adminUsernames = ['admin', 'sammy', 'belmontreal', 'vertxxy'];
+
+        auth.onAuthStateChanged(user => {
+            if (user) {
+                signedOutDiv.style.display = 'none';
+                signedInDiv.style.display = 'block';
+
+                const email = user.email;
+                const username = email.split('@')[0].toLowerCase();
+                welcomeMsg.textContent = `Welcome, ${username}`;
+
+                if (adminUsernames.includes(username)) {
+                    adminLink.style.display = 'inline-block';
+                } else {
+                    adminLink.style.display = 'none';
+                }
+            } else {
+                signedOutDiv.style.display = 'block';
+                signedInDiv.style.display = 'none';
+                errorMsg.textContent = '';
+            }
+        });
+
+        signupBtn.addEventListener('click', () => {
+            const username = usernameInput.value.trim();
+            const password = passwordInput.value;
+
+            if (!username || !password) {
+                errorMsg.textContent = 'Please enter username and password.';
+                return;
+            }
+
+            const email = getEmailFromUsername(username);
+
+            auth.createUserWithEmailAndPassword(email, password)
+                .then(() => {
+                    errorMsg.textContent = '';
+                })
+                .catch(error => {
+                    errorMsg.textContent = error.message;
+                });
+        });
+
+        loginBtn.addEventListener('click', () => {
+            const username = usernameInput.value.trim();
+            const password = passwordInput.value;
+
+            if (!username || !password) {
+                errorMsg.textContent = 'Please enter username and password.';
+                return;
+            }
+
+            const email = getEmailFromUsername(username);
+
+            auth.signInWithEmailAndPassword(email, password)
+                .then(() => {
+                    errorMsg.textContent = '';
+                })
+                .catch(error => {
+                    errorMsg.textContent = error.message;
+                });
+        });
+
+        logoutBtn.addEventListener('click', () => {
+            auth.signOut();
+        });
+    </script>
+</body>
+
+</html>
